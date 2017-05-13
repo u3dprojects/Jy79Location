@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+body, html, #div_baidumap_container {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	margin: 0;
+}
+#div_device_list {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	width: 340px;
+	height: 252px;
+	font-size:16px;
+	overflow: hidden;
+	z-index: 500;
+}
+
+#scroller {
+	position: absolute;
+	z-index: 600;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	width: 100%;
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-o-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+.one_device{
+	background: url(dibanhengtiao5.png) no-repeat 0 0;
+	width: 331px;
+	height: 84px;
+	line-height:84px;
+}
+
+.lv {
+	background: url(dingweikuang.png) no-repeat 0 0;
+	width: 352px;
+	height: 140px;
+}
+.cbx {
+	background: url(off.png) no-repeat 0 0;
+	width: 75px;
+	height: 54px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.cbx_check {
+	background: url(on.png) no-repeat 0 0;
+	width: 85px;
+	height: 54px;
+	display: inline-block;
+	vertical-align: middle;
+}
+</style>
+<script type="text/javascript" src="http://www.coolape.net/js/iscroll.js"></script>
+<title>显示地图</title>
+</head>
+<body>
+<div id="div_baidumap_container"></div>
+<div id="div_device_list">
+	<div id="scroller"></div>
+</div>
+<script type="text/javascript"> 
+
+// 创建地图实例
+var map;
+
+//当前选中车辆是否是锁定状态
+var isLocked = false;
+
+// 当前车辆信息
+var curCar;
+
+// 拥有车的列表
+var listCars;
+
+//点击了锁定的按键
+function clickSpan(that,unqid){
+  if(that.className == 'cbx_check'){that.className='cbx';}else{that.className='cbx_check';}
+}
+
+//设置样式
+function setClass(info_Window){
+  var that = document.getElementById('IDLockCar');
+  if(isLocked){that.className='cbx_check';}else{that.className='cbx';}
+  info_Window.redraw();
+}
+
+function showCarInfo(oneObj) {
+	curCar = oneObj;
+	isLocked = curCar.isLocked;
+	addMarkerTag(curCar);
+}
+
+function initialize() { 
+	//创建地图
+	map = new BMap.Map("div_baidumap_container");  
+	
+	// 创建点坐标
+	var point = new BMap.Point(116.404, 39.915);
+	
+	// 地图初始化
+	map.centerAndZoom(point, 12);
+	
+	map.setZoom(12);
+	
+	/////////////////////////极速版控件类///////////////////////////////
+	//添加比例尺控件
+	map.addControl(new BMap.ScaleControl());
+	
+	//添加缩放控件
+	map.addControl(new BMap.ZoomControl());
+	
+	/////////////////////////普通版本///////////////////////////////
+	// 地图平移缩放控件
+	// map.addControl(new BMap.NavigationControl());
+	// 比例尺控件
+	// map.addControl(new BMap.ScaleControl());
+	// 缩略地图控件
+	// map.addControl(new BMap.OverviewMapControl());
+	// 地图类型控件
+	// map.addControl(new BMap.MapTypeControl());
+	
+	/////////////////////////////////////////////////////////////////////
+	setTimeout(function(){call2Unity({"cmd":"onFinsihLoad"});}, 1000);
+}
+
+var marker;
+
+var infoWindow;
+
+// 标注 经度L，纬度D
+function addMarkerTag(obj){
+	var point = new BMap.Point(obj.L, obj.D);
+	// map.centerAndZoom(point, 15);
+	map.panTo(point);
+	
+	if(!marker){
+		marker = new BMap.Marker(point);
+	
+	// 创建图标对象
+		var myIcon = new BMap.Icon("dianpingche.png",   
+			new BMap.Size(59, 43), {      
+			anchor: new BMap.Size(30, 30),        
+		});
+		marker.setIcon(myIcon);
+		
+		map.addOverlay(marker);
+	}
+	
+	marker.setPosition(point);
+	
+	//信息框
+	var sContent = "";
+	sContent += '<div>';
+	sContent += '<h4 style="margin:0 0 5px 0;padding:0.2em 0">编号：' + obj.deviceNo + '</h4>';
+	sContent += '锁定:<span id="IDLockCar" onclick="clickSpan(this,\''+obj.deviceNo+'\')" class="'+(obj.isLocked ? "cbx_check" : "cbx")+'"></span>';
+	sContent += '</div>';
+	
+	//创建信息框
+	infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+	
+	//给marker加点击事件
+	marker.removeEventListener("click",handlerClickMarker);
+	marker.addEventListener("click",handlerClickMarker);
+	
+	// 打开信息窗口
+	marker.openInfoWindow(infoWindow, marker.getPosition());
+	//这个地方必须要设置一次Timeout,不然就取不到对像
+	setTimeout(function(){setClass(infoWindow)}, 1000);
+}
+
+function handlerClickMarker(tp,target){
+	var isOpen = infoWindow.isOpen();
+	if(isOpen) {
+		this.closeInfoWindow(infoWindow);
+	} else {
+		this.openInfoWindow(infoWindow);
+		setClass(infoWindow);
+	}
+	//图片加载完毕重绘infowindow
+	// document.getElementById('imgDemo').onload = function (){
+	//   infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+	// }
+}
+
+function call2Unity(objJson){
+	var str = JSON.stringify(objJson);
+	Unity.call(str);
+	// addTestVal();
+	// addTestList();
+}
+
+function addTestVal(){
+	var obj =  {isLocked:true,L:120.404,D:40.915,deviceNo:1234567890};
+	showCarInfo(obj);
+}
+
+function addTestList(){
+	var isLocked,L,D,No;
+    var defL = 116.404;
+    var defD = 39.915;
+	var list = new Array();
+	var lens = 10;
+
+    for(var i = 0; i < lens; i++){
+      // 添加测试数据
+	  var val = {};
+      isLocked = !(isLocked);
+      L = defL + (i * 0.08);
+      D = defD + (i * 0.05);
+      No = Math.ceil(Math.random() * 100000);
+
+      val.L = L;
+      val.D = D;
+      val.deviceNo = No;
+      val.isLocked = isLocked;
+	  list.push(val);
+    }
+	showCarList(list);
+}
+   
+function loadScript() {  
+  var script = document.createElement("script");
+  var defV = 1.0;
+  var curV = 1.0;
+  // type=quick 标识：极速版JS总类/极速版控件类 类参考
+  script.src = "http://api.map.baidu.com/api?type=quick&ak=T59gK6PmC3lV4gS8Mep3daOuzBlz5X4v&v="+curV+"&callback=initialize";
+  document.body.appendChild(script);  
+} 
+
+window.onload = loadScript;
+
+var myScroll;
+
+function showCarList(list) {
+	listCars = list;
+	var lens = listCars.length;
+	if(lens <= 0){
+		call2Unity({"cmd":"backHome"});
+		return;
+	}
+	
+	var li;
+	var items = "";
+	for(var i = 0; i < lens; i++){
+		li = listCars[i];
+		items += '<div class="one_device" onclick="clickOneCar('+i+')">'
+			+ "<img style='float:left;margin:16px 0px 0px 8px;' src='dianpingche2.png' width='59' height='43' />"
+			+ '<div style="float:left;margin:0px 0px 0px 5px;color:rgba(255,255,255,1);font-size:18px;width:165px;">'+li.deviceNo+'</div>'
+			+ '<div style="float:left;margin:20px 0px 0px 5px;" class="'+(li.isLocked ? "cbx_check" : "cbx")+'" onclick="clickSpan(this,\''+li.deviceNo+'\')"></div>'
+			+ '<div style="clear:both;"></div>'
+			+ '</div>';
+		if(i == 0){
+			showCarInfo(listCars[0]);
+		}
+	}
+	var docList = document.getElementById("scroller");
+	docList.innerHTML = items;
+	
+	destroyMyScroll();
+	if(!myScroll){
+		myScroll = new IScroll('#div_device_list', {
+			scrollbars: true,
+			mouseWheel: true,
+			interactiveScrollbars: true,
+			shrinkScrollbars: 'scale',
+			fadeScrollbars: true,
+			click: true
+		});
+	}
+}
+
+function clickOneCar(index){
+	index = parseInt(index, 10) || 0; 
+	showCarInfo(listCars[index]);
+}
+
+function destroyMyScroll(){
+	if(myScroll){
+		myScroll.destroy();
+		myScroll = null;
+	}
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.company.product" android:versionName="1.0" android:versionCode="1" android:installLocation="preferExternal">
+  <application  android:theme="@android:style/Theme.NoTitleBar.Fullscreen" android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="false" android:isGame="true" android:banner="@drawable/app_banner">
+    <activity android:name="com.unity3d.player.UnityPlayerActivity"
+             android:label="@string/app_name"
+             android:screenOrientation="sensorPortrait"
+			 android:launchMode="singleTask"
+			 android:hardwareAccelerated="true"
+             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale">
+      <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="false" />
+	  <intent-filter>
+		<!-- 决定应用程序最先启动的Activity  -->
+        <action android:name="android.intent.action.MAIN" />
+		<!-- 决定应用程序是否显示在程序列表里  -->
+        <category android:name="android.intent.category.LAUNCHER" />
+		<!-- 过滤器,添加这个主要是为了googleplay的区分识别 -->
+        <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+      </intent-filter>
+    </activity>
+	
+	<!-- 支付宝 2个activity-->
+	<activity
+             android:name="com.alipay.sdk.app.H5PayActivity"
+             android:configChanges="orientation|keyboardHidden|navigation"
+             android:exported="false"
+             android:screenOrientation="behind">
+	</activity>
+	<activity
+             android:name="com.alipay.sdk.auth.AuthActivity"
+             android:configChanges="orientation|keyboardHidden|navigation"
+             android:exported="false"
+             android:screenOrientation="behind">
+	 </activity>
+
+	<!-- 微信支付 -->
+	<activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"/>
+  </application>
+
+  <!-- 指定应用程序所支持的屏幕尺寸  -->
+  <supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:xlargeScreens="true" android:anyDensity="true" />
+  
+  <!-- android版本 -->
+  <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="23" />
+
+  <!-- android 过滤所有设备不支持的应用 有些设备不支持多点触控或者OpenGL ES 2.0 -->
+  <uses-feature android:glEsVersion="0x00020000" android:required="false" />
+  <uses-feature android:name="android.hardware.sensor.accelerometer" android:required="false" />
+  <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+  <uses-feature android:name="android.hardware.touchscreen.multitouch" android:required="false" />
+  <uses-feature android:name="android.hardware.touchscreen.multitouch.distinct" android:required="false" />
+  
+  <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+  <uses-feature android:name="android.hardware.location" android:required="false" />
+
+  <!-- android 权限 -->
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+  <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  
+  <!-- 支付宝 -->
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+  
+  <!-- 微信 -->
+  <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+</manifest>
