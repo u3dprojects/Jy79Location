@@ -392,7 +392,7 @@ public static class Utl
             {
                 assetsMap[assetName] = abc.assetBundle;
                 GameObject go = null;
-#if UNITY_5
+#if UNITY_2019
                 go = abc.assetBundle.LoadAsset(assetName) as GameObject;
 #else
                 go = abc.assetBundle.Load(assetName) as GameObject;
@@ -411,7 +411,7 @@ public static class Utl
             {
                 if (typeof(LuaFunction) == onGetAssetsBundle.GetType())
                 {
-#if UNITY_5
+#if UNITY_2019
                 ((LuaFunction)onGetAssetsBundle).Call("", abc.assetBundle.LoadAllAssets(), original);
 #else
                     ((LuaFunction)onGetAssetsBundle).Call("", abc.assetBundle.LoadAll(), original);
@@ -420,7 +420,7 @@ public static class Utl
                 }
                 else if (typeof(Callback) == onGetAssetsBundle.GetType())
                 {
-#if UNITY_5
+#if UNITY_2019
                 ((Callback)onGetAssetsBundle)("", abc.assetBundle.LoadAllAssets(), original);
 #else
                     ((Callback)onGetAssetsBundle)("", abc.assetBundle.LoadAll(), original);

@@ -55,7 +55,7 @@ public class CLPanelPveMapInspector : CLPanelLuaInspector
                         {
                             int v = i % pageSize + 1;
                             string inStr = v < 10 ? "0" + v : v + "";
-                            Transform tmpTrsf = pnl.trsfNpcWrap.FindChild("CellNpc" + inStr);
+                            Transform tmpTrsf = pnl.trsfNpcWrap.Find("CellNpc" + inStr);
                             if (tmpTrsf != null)
                             {
                                 pnl.npcPos[i] = new Vector3(tmpTrsf.localPosition.x, tmpTrsf.localPosition.y, tmpTrsf.localPosition.z);

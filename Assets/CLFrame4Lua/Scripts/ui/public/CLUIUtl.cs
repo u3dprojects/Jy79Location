@@ -61,7 +61,7 @@ public class CLUIUtl
 		string childName = "";
 		for (int i = 0; i < list.Count; i++) {
 			childName = NumEx.nStrForLen(beforCount + i, 5);
-			go = parent.transform.FindChild(childName);
+			go = parent.transform.Find(childName);
 			if (go == null) {
 				go = NGUITools.AddChild(parent.gameObject, prefabChild).transform;
 				go.name = childName;
@@ -178,7 +178,7 @@ public class CLUIUtl
 		string childName = "";
 		for (i = 0; i < parentTf.childCount && list != null && j < list.Length; i++) {
 			childName = NumEx.nStrForLen(i, 5);
-			go = parentTf.FindChild(childName);
+			go = parentTf.Find(childName);
 			if (go != null) {
 				if (go.GetComponent(itype) != null) {
 					NGUITools.SetActive(go.gameObject, true);
@@ -208,7 +208,7 @@ public class CLUIUtl
 		
 		while (i < parentTf.childCount) {
 			childName = NumEx.nStrForLen(i, 5);
-			go = parentTf.FindChild(childName);
+			go = parentTf.Find(childName);
 			if (go != null && go.gameObject.activeSelf) {
 				if (go.GetComponent(itype) != null) {
 					NGUITools.SetActive(go.gameObject, false);
@@ -423,7 +423,7 @@ public class CLUIUtl
 		int i = 0;
 		for (i = list.Count - 1; i >= 0; i--) {
 			if (i < cellObjCount) {
-				go = grid.transform.FindChild(i.ToString()).gameObject;
+				go = grid.transform.Find(i.ToString()).gameObject;
 				NGUITools.SetActive(go, true);
 			} else {
 				go = NGUITools.AddChild(grid.gameObject, prefabChild);
@@ -446,7 +446,7 @@ public class CLUIUtl
 			go.transform.localPosition = pos;
 		}
 		for (i= list.Count; i < cellObjCount; i++) {
-			go = grid.transform.FindChild(i.ToString()).gameObject;
+			go = grid.transform.Find(i.ToString()).gameObject;
 			NGUITools.SetActive(go, false);
 		}
 	}
@@ -462,7 +462,7 @@ public class CLUIUtl
 	/// </param>
 	public static void setTabSelected(Transform _tabRoot, string name)
 	{
-		Transform tab = _tabRoot.FindChild(name);
+		Transform tab = _tabRoot.Find(name);
 		UIToggle checkbox = tab.GetComponent<UIToggle>();
 		if (checkbox != null) {
 			checkbox.value = true;

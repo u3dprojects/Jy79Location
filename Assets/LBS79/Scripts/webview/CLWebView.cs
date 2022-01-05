@@ -144,8 +144,9 @@ public class CLWebView : MonoBehaviour
 					"}, false);");
 			}
 			break;
-		case RuntimePlatform.OSXWebPlayer:
-		case RuntimePlatform.WindowsWebPlayer:
+		case RuntimePlatform.WebGLPlayer:
+		// case RuntimePlatform.OSXWebPlayer:
+		// case RuntimePlatform.WindowsWebPlayer:
 //			webViewObject.LoadURL (Url.Replace (" ", "%20"));
 			webViewObject.LoadURL (System.Uri.UnescapeDataString(Url));
 			webViewObject.EvaluateJS (

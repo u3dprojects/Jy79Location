@@ -7,8 +7,8 @@ public class CLLightmaping : MonoBehaviour
 	public static void bake()
 	{
 		LightmapEditorSettings.maxAtlasHeight = 512;
-		LightmapEditorSettings.maxAtlasWidth = 512;
+		LightmapEditorSettings.maxAtlasSize = 512;
 		Lightmapping.Clear();
-		Lightmapping.BakeSelected();
+		Lightmapping.Bake();
 	}
 }

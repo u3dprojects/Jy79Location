@@ -105,7 +105,7 @@ public class CLModelPool
 		if (go.name == meshName) {
 			tr = go.transform;
 		} else {
-			tr = go.transform.FindChild (meshName);
+			tr = go.transform.Find (meshName);
 		}
 		if (tr != null) {
 			MeshFilter mf = tr.GetComponent<MeshFilter>();

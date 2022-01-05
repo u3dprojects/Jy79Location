@@ -340,7 +340,7 @@ public class CLPanelManager :MonoBehaviour
 			p = ((CLPanelBase)(panelBuff [pName]));
 		}
 		if(p == null) {
-			Transform tr = self.transform.FindChild(pName);
+			Transform tr = self.transform.Find(pName);
 			if (tr != null) {
 				p = tr.GetComponent<CLPanelBase>();
 				if (p != null) {
@@ -534,7 +534,7 @@ public class CLPanelManager :MonoBehaviour
 		if (panelBuff [pName] != null) {
 			return ((CLPanelBase)(panelBuff [pName]));
 		}
-		Transform tr = self.transform.FindChild(pName);
+		Transform tr = self.transform.Find(pName);
 		if (tr != null) {
 			CLPanelBase p = tr.GetComponent<CLPanelBase>();
 			if (p != null) {

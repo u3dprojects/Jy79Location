@@ -108,7 +108,7 @@ public class CLModelMgr : MonoBehaviour
 				if (go.name == clMod.meshName) {
 					tr = go.transform;
 				} else {
-					tr = go.transform.FindChild (clMod.meshName);
+					tr = go.transform.Find (clMod.meshName);
 				}
 				
 				MeshFilter mf = tr.GetComponent<MeshFilter>();

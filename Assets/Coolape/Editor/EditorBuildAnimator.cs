@@ -7,7 +7,7 @@ using System;
 
 #if UNITY_4_6
 using UnityEditorInternal;
-#elif UNITY_5
+#elif UNITY_5 || UNITY_2019
 using UnityEditor.Animations;
 #endif
 
@@ -177,7 +177,7 @@ public class EditorBuildAnimator : Editor
         codition.mode = mode;
         codition.threshold = val;
     }
-#elif UNITY_5
+#elif UNITY_2019
   static private void createOne(UnityEngine.Object objFBX)
     {
         if (objFBX == null)

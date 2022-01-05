@@ -148,8 +148,7 @@ public class BMWebView : MonoBehaviour
 					"}, false);");
 			}
 			break;
-		case RuntimePlatform.OSXWebPlayer:
-		case RuntimePlatform.WindowsWebPlayer:
+		case RuntimePlatform.WebGLPlayer:
 			webViewObject.LoadURL (Url.Replace (" ", "%20"));
 			webViewObject.EvaluateJS (
 				"parent.$(function() {" +

@@ -272,7 +272,7 @@ public class CLRoleAvataInspector : CLBehaviour4LuaInspector
 								mat = (Material)(EditorGUILayout.ObjectField (getMat (aBodyPart.materialNames [i]), typeof(Material)));
 							} else {
 								aBodyPart.materialNames = new List<string> (aBodyPart.cellNames.Count);
-								mat = (Material)(EditorGUILayout.ObjectField (null, typeof(Material)));
+								mat = (Material)(EditorGUILayout.ObjectField (mat, typeof(Material)));
 							}
 							if (mat != null) {
 								aBodyPart.materialNames [i] = mat.name;

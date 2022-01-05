@@ -78,7 +78,7 @@ public class CLModelMgrInspector : Editor
 						if (go.name == mat.meshName) {
 							tr = go.transform;
 						} else {
-							tr = go.transform.FindChild (mat.meshName);
+							tr = go.transform.Find (mat.meshName);
 						}
 						MeshFilter mf = tr.GetComponent<MeshFilter>();
 						if(mf != null) {

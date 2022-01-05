@@ -656,7 +656,7 @@ public class CoolapePublisher : EditorWindow
 #if UNITY_5
         PlayerSettings.SetScriptingDefineSymbolsForGroup (BuildTargetGroup.iOS, currChlData.mScriptingDefineSymbols);
 #else
-        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iPhone, currChlData.mScriptingDefineSymbols);
+        PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, currChlData.mScriptingDefineSymbols);
 #endif
 		
 		PlayerSettings.SetScriptingDefineSymbolsForGroup (BuildTargetGroup.Standalone, currChlData.mScriptingDefineSymbols);
@@ -689,7 +689,7 @@ public class CoolapePublisher : EditorWindow
 #if UNITY_5
         } else if (currChlData.buildTarget == BuildTarget.iOS) {
 #else
-        }else if (currChlData.buildTarget == BuildTarget.iPhone){
+        }else if (currChlData.buildTarget == BuildTarget.iOS){
 #endif
 		
 			iconNames = IosIconsName;
@@ -701,7 +701,7 @@ public class CoolapePublisher : EditorWindow
 		//Splash imgae
 		PlayerSettings.resolutionDialogBanner = currChlData.mSplashImage;
 		//indentifier & version
-		PlayerSettings.bundleIdentifier = currChlData.mBundleIndentifier;
+		PlayerSettings.applicationIdentifier = currChlData.mBundleIndentifier;
 		PlayerSettings.bundleVersion = currChlData.mBundleVersion;
 		modifyCfgFile ();
 		if (currChlData.buildTargetGroup == BuildTargetGroup.Android) {
@@ -790,7 +790,7 @@ public class CoolapePublisher : EditorWindow
         } else if (currChlData.buildTarget == BuildTarget.iOS) {
 #else
         }
-        else if (currChlData.buildTarget == BuildTarget.iPhone)
+        else if (currChlData.buildTarget == BuildTarget.iOS)
         {
 #endif
 //			EditorUserBuildSettings.appendProject = true;
@@ -808,7 +808,7 @@ public class CoolapePublisher : EditorWindow
 #if UNITY_5
                 if (currChlData.buildTarget == BuildTarget.iOS && needApend) {
 #else
-        if (currChlData.buildTarget == BuildTarget.iPhone && needApend) {
+        if (currChlData.buildTarget == BuildTarget.iOS && needApend) {
 #endif
 			BuildPipeline.BuildPlayer (levels, locationName, currChlData.buildTarget, BuildOptions.AcceptExternalModificationsToPlayer);
 		} else {
@@ -937,7 +937,7 @@ public class ChlData
 #if UNITY_5
                 return BuildTargetGroup.iOS;
 #else
-                return BuildTargetGroup.iPhone;
+                return BuildTargetGroup.iOS;
 #endif
 			}
 			return BuildTargetGroup.Android;
@@ -953,7 +953,7 @@ public class ChlData
 #if UNITY_5
                 return BuildTarget.iOS;
 #else
-                return BuildTarget.iPhone;
+                return BuildTarget.iOS;
 #endif
 			}
 			return BuildTarget.Android;
